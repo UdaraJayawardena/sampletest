@@ -5,7 +5,7 @@ router.get('/', function (req, res, next) {
   res.json('Default Message')
 });
 
-router.get('/test', () => {
+router.get('/test', (req, res) => {
   res.json('This is a Test Message')
 })
 
