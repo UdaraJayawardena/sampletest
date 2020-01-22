@@ -8,6 +8,8 @@ router.get('/', function (req, res, next) {
   })
 });
 
+
+
 router.get('/test', (req, res) => {
   res.json('This is a Test Message')
 })
