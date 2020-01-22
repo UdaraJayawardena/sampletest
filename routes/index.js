@@ -1,8 +1,11 @@
 var express = require('express');
 var router = express.Router();
+var axios = require('axios');
 
 router.get('/', function (req, res, next) {
-  res.json('Default Message')
+  axios.get('https://jsonplaceholder.typicode.com/posts').then((ress) => {
+    console.log(ress.data)
+  })
 });
 
 router.get('/test', (req, res) => {
