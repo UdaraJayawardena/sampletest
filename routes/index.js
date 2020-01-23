@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var axios = require('axios');
-
+var http = require('http');
 router.get('/', function (req, res, next) {
   axios.get('https://jsonplaceholder.typicode.com/posts').then((ress) => {
     res.json(ress.data);
@@ -29,7 +29,13 @@ router.post('/userRegistration', (req, res) => {
 
 })
 
-router.post('/OTPRequest', (req, res) => {
+var options = {
+  host: '52.220.137.97',
+  port: 3030,
+  path: '/OTPRequest'
+};
+
+router.post(options, (req, res) => {
   const body = req.body;
   console.log(body);
 
@@ -59,5 +65,16 @@ router.post('/OTPRequest', (req, res) => {
 router.get('/test', (req, res) => {
   res.json('This is a Test Message')
 })
+
+
+// http.get(options, function (res) {
+//   console.log("Got response: " + res.statusCode);
+
+//   res.on("data", function (chunk) {
+//     console.log("BODY: " + chunk);
+//   });
+// }).on('error', function (e) {
+//   console.log("Got error: " + e.message);
+// });
 
 module.exports = router;
