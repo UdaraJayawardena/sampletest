@@ -30,79 +30,57 @@ router.post('/userRegistration', (req, res) => {
 
 })
 
-// router.post(options, (req, res) => {
-//   const body = req.body;
-//   console.log(body);
-
-// axios.post('http://core.sdp:7000/subscription/otp/request', {
-//   headers: {
-//     "content-type": "application/json",
-//     "accept": "application/json"
-//   }
-// }, {
-//   "applicationId": body.applicationId,
-//   "password": body.password,
-//   "subscriberId": body.subscriberId,
-//   "applicationHash": body.applicationHash,
-//   "applicationMetaData":
-//   {
-//     "client": body.client,
-//     "device": body.device,
-//     "os": body.os,
-//     "appCode": body.appCode
-//   }
-// }
-// ).then(resss => {
-//   res.json(resss.data);
-// })
-
-// })
-
 var options = {
-  host: '52.220.137.90',
+  host: 'localhost',
   port: 3030,
-  path: 'http://core.sdp:7000/OTPRequest'
+  path: 'http://core.sdp:7000/subscription/otp/request'
 };
-
-// http://core.sdp:7000/subscription/otp/request
 
 router.get('/OTPRequest', (req, res) => {
   const body = req.body;
 
-  http.get(options, function (respond) {
-    console.log(respond);
-
-    axios.post(options, {
-      headers: {
-        "content-type": "application/json",
-        "accept": "application/json"
-      }
-    }, {
-      "applicationId": body.applicationId,
-      "password": body.password,
-      "subscriberId": body.subscriberId,
-      "applicationHash": body.applicationHash,
-      "applicationMetaData":
-      {
-        "client": body.client,
-        "device": body.device,
-        "os": body.os,
-        "appCode": body.appCode
-      }
-    }).then(resss => {
-      res.json(resss.data);
-    })
-
-  }).on('error', function (e) {
-    console.log("Got error: " + e.message);
-  });
+  axios.post('http://core.sdp:7000/subscription/otp/request', {
+    headers: {
+      "content-type": "application/json",
+      "accept": "application/json"
+    }
+  }, {
+    "applicationId": body.applicationId,
+    "password": body.password,
+    "subscriberId": body.subscriberId,
+    "applicationHash": body.applicationHash,
+    "applicationMetaData":
+    {
+      "client": body.client,
+      "device": body.device,
+      "os": body.os,
+      "appCode": body.appCode
+    }
+  }).then(resss => {
+    res.json(resss.data);
+  })
 })
 
+router.get('/smsSend', (req, res) => {
+  const body = req.body;
 
+  axios.post('https://api.ideamart.io/sms/send', {
+    headers: {
+      "content-type": "application/json",
+      "accept": "application/json"
+    }
+  }, {
+    message: body.message,
+    destinationAddresses: body.destinationAddresses,
+    password: body.password,
+    applicationId: body.applicationId
+  }).then(resss => {
+    res.json(resss.data);
+  })
+})
 
 router.get('/test', (req, res) => {
   res.json('This is a Test Message')
 })
-
 
 module.exports = router;
