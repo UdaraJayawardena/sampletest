@@ -4,7 +4,7 @@ var axios = require('axios');
 
 router.get('/', function (req, res, next) {
   axios.get('https://jsonplaceholder.typicode.com/posts').then((ress) => {
-    console.log(ress.data)
+    res.json(ress.data);
   })
 });
 
@@ -13,14 +13,20 @@ router.post('/userRegistration', (req, res) => {
   console.log(body);
 
   axios.post('https://api.ideamart.io/subscription/send', {
-    applicationId: body.applicationId,
-    password: body.password,
-    version: body.version,
-    action: body.action,
-    subscriberId: body.subscriberId
+    "applicationId": body.applicationId,
+    "password": body.password,
+    "version": body.version,
+    "action": body.action,
+    "subscriberId": body.subscriberId
+  }, {
+    headers: {
+      "content-type": "application/json",
+      "accept": "application/json"
+    }
   }).then(resss => {
     res.json(resss.data);
   })
+
 })
 
 router.post('/OTPRequest', (req, res) => {
@@ -28,16 +34,21 @@ router.post('/OTPRequest', (req, res) => {
   console.log(body);
 
   axios.post('http://core.sdp:7000/subscription/otp/request', {
-    applicationId: body.applicationId,
-    password: body.password,
-    subscriberId: body.subscriberId,
-    applicationHash: body.applicationHash,
-    applicationMetaData:
+    headers: {
+      "content-type": "application/json",
+      "accept": "application/json"
+    }
+  }, {
+    "applicationId": body.applicationId,
+    "password": body.password,
+    "subscriberId": body.subscriberId,
+    "applicationHash": body.applicationHash,
+    "applicationMetaData":
     {
-      client: body.client,
-      device: body.device,
-      os: android8,
-      appCode: ""
+      "client": body.client,
+      "device": body.device,
+      "os": body.os,
+      "appCode": body.appCode
     }
   }
   ).then(resss => {
