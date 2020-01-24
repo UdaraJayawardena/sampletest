@@ -31,24 +31,40 @@ router.post('/userRegistration', (req, res) => {
 })
 
 var options = {
-  host: 'localhost',
+  host: 'http://core.sdp:7000',
   port: 3030,
-  path: 'http://core.sdp:7000/subscription/otp/request'
+  path: '/subscription/otp/request'
 };
+
+// http.get(options, function (res) {
+//   axios.post('http://core.sdp:7000/subscription/otp/request', {
+//     "applicationId": 'APP_054681',
+//     "password": 'dd9a5d699c263e82827c378ee08c3f7f',
+//     "subscriberId": 'tel:94784662138',
+//     "applicationHash": 'kFUwfusCq/+',
+//     "applicationMetaData": {
+//       "client": 'MOBILEAPP',
+//       "device": 'Nokia 4.2',
+//       "os": 'android9',
+//       "appCode": 'https://play.google.com/store/apps/details?id=lk.dialog.megarunlor'
+//     }
+//   }).then(resss => {
+//     res.json(resss.data);
+//   })
+// });
 
 router.post('/OTPRequest', (req, res) => {
   const body = req.body;
-
-  axios.post('http://core.sdp:7000/subscription/otp/request', {
+  console.log(body);
+  axios.post('https://api.dialog.lk/subscription/otp/request', {
     headers: {
-      "content-type": "application/json",
-      "accept": "application/json"
+      "Content-Type": "application/json",
+      "Accept": "application/json"
     }
   }, {
     "applicationId": body.applicationId,
     "password": body.password,
     "subscriberId": body.subscriberId,
-    "applicationHash": body.applicationHash,
     "applicationMetaData": {
       "client": body.client,
       "device": body.device,
