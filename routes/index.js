@@ -36,7 +36,7 @@ var options = {
   path: 'http://core.sdp:7000/subscription/otp/request'
 };
 
-router.get('/OTPRequest', (req, res) => {
+router.post('/OTPRequest', (req, res) => {
   const body = req.body;
 
   axios.post('http://core.sdp:7000/subscription/otp/request', {
@@ -49,8 +49,7 @@ router.get('/OTPRequest', (req, res) => {
     "password": body.password,
     "subscriberId": body.subscriberId,
     "applicationHash": body.applicationHash,
-    "applicationMetaData":
-    {
+    "applicationMetaData": {
       "client": body.client,
       "device": body.device,
       "os": body.os,
@@ -70,10 +69,10 @@ router.get('/smsSend', (req, res) => {
       "accept": "application/json"
     }
   }, {
-    message: body.message,
-    destinationAddresses: body.destinationAddresses,
-    password: body.password,
-    applicationId: body.applicationId
+    "message": body.message,
+    "destinationAddresses": body.destinationAddresses,
+    "password": body.password,
+    "applicationId": body.applicationId
   }).then(resss => {
     res.json(resss.data);
   })
@@ -83,4 +82,5 @@ router.get('/test', (req, res) => {
   res.json('This is a Test Message')
 })
 
+var passengerequest = ["PS1", ["DS1", "DS2", "DS3"]]
 module.exports = router;
