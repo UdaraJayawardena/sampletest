@@ -2,6 +2,55 @@ var express = require('express');
 var router = express.Router();
 var axios = require('axios');
 var http = require('http');
+var querystring = require('querystring');
+
+
+
+OTPRequest();
+
+// var options = {
+//   host: 'http://localhost',
+//   port: '3030',
+//   path: 'https://api.dialog.lk/subscription/otp/request',
+//   method: 'POST'
+// };
+
+function OTPRequest() {
+
+  var post_data = querystring.stringify({
+    "applicationId": " APP_054681",
+    "password": "dd9a5d699c263e82827c378ee08c3f7f",
+    "subscriberId": " tel:94784662138",
+    "applicationMetaData": {
+      "client": "MOBILEAPP",
+      "device": "Samsung S10",
+      "os": "android8",
+      "appCode": "https://play.google.com/store/apps/details?id=lk.dialog.megarunlor"
+    }
+  })
+
+  var post_options = {
+    host: 'localhost',
+    port: '3030',
+    path: 'https://api.dialog.lk/subscription/otp/request',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Content-Length': Buffer.byteLength(post_data)
+    }
+  };
+
+  var post_req = http.request(post_options, function (res) {
+    res.on('data', function (chunk) {
+      console.log(chunk);
+    });
+  });
+
+  post_req.write(post_data);
+  post_req.end();
+
+}
+
 
 router.get('/', function (req, res, next) {
   axios.get('https://jsonplaceholder.typicode.com/posts').then((ress) => {
@@ -9,67 +58,50 @@ router.get('/', function (req, res, next) {
   })
 });
 
-router.post('/userRegistration', (req, res) => {
-  const body = req.body;
-  console.log(body);
-
-  axios.post('https://api.ideamart.io/subscription/send', {
-    "applicationId": body.applicationId,
-    "password": body.password,
-    "version": body.version,
-    "action": body.action,
-    "subscriberId": body.subscriberId
-  }, {
-    headers: {
-      "content-type": "application/json",
-      "accept": "application/json"
-    }
-  }).then(resss => {
-    res.json(resss.data);
-  })
-
-})
-
-var options = {
-  host: 'http://core.sdp:7000',
-  port: 3030,
-  path: '/subscription/otp/request'
-};
 
 // http.get(options, function (res) {
-//   axios.post('http://core.sdp:7000/subscription/otp/request', {
-//     "applicationId": 'APP_054681',
-//     "password": 'dd9a5d699c263e82827c378ee08c3f7f',
-//     "subscriberId": 'tel:94784662138',
-//     "applicationHash": 'kFUwfusCq/+',
+//   var obj = {
+//     "applicationId": " APP_054681",
+//     "password": "dd9a5d699c263e82827c378ee08c3f7f",
+//     "subscriberId": " tel:94784662138",
 //     "applicationMetaData": {
-//       "client": 'MOBILEAPP',
-//       "device": 'Nokia 4.2',
-//       "os": 'android9',
-//       "appCode": 'https://play.google.com/store/apps/details?id=lk.dialog.megarunlor'
+//       "client": "MOBILEAPP",
+//       "device": "Samsung S10",
+//       "os": "android8",
+//       "appCode": "https://play.google.com/store/apps/details?id=lk.dialog.megarunlor"
 //     }
-//   }).then(resss => {
+//   }
+
+//   axios.post('https://api.dialog.lk/subscription/otp/request', obj).then(resss => {
 //     res.json(resss.data);
 //   })
+
 // });
+
+// {
+//   headers: {
+//     "Content-Type": "application/json",
+//     "Accept": "application/json"
+//   }
+// },
 
 router.post('/OTPRequest', (req, res) => {
   const body = req.body;
-  console.log(body);
+
   axios.post('https://api.dialog.lk/subscription/otp/request', {
     headers: {
       "Content-Type": "application/json",
       "Accept": "application/json"
     }
   }, {
-    "applicationId": body.applicationId,
-    "password": body.password,
-    "subscriberId": body.subscriberId,
+    "applicationId": "APP_054681",
+    "password": "dd9a5d699c263e82827c378ee08c3f7f",
+    "subscriberId": " tel:94784662138",
     "applicationMetaData": {
-      "client": body.client,
-      "device": body.device,
-      "os": body.os,
-      "appCode": body.appCode
+      "client": "MOBILEAPP",
+      "device": "Samsung S10",
+      "os": "android9",
+      "appCode": "https://play.google.com/store/apps/details?id=lk.dialog.megarunlor"
     }
   }).then(resss => {
     res.json(resss.data);
@@ -98,5 +130,4 @@ router.get('/test', (req, res) => {
   res.json('This is a Test Message')
 })
 
-var passengerequest = ["PS1", ["DS1", "DS2", "DS3"]]
 module.exports = router;
