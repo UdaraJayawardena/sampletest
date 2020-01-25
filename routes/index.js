@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var axios = require('axios');
-var http = require('http');
+var https = require('https');
 var querystring = require('querystring');
+var qs = require('qs');
 
 
 
@@ -17,37 +18,45 @@ OTPRequest();
 
 function OTPRequest() {
 
-  var post_data = querystring.stringify({
-    "applicationId": " APP_054681",
-    "password": "dd9a5d699c263e82827c378ee08c3f7f",
-    "subscriberId": " tel:94784662138",
-    "applicationMetaData": {
-      "client": "MOBILEAPP",
-      "device": "Samsung S10",
-      "os": "android8",
-      "appCode": "https://play.google.com/store/apps/details?id=lk.dialog.megarunlor"
+  var post_data = qs.stringify(
+    {
+      "applicationId": "APP_054681",
+      "password": "dd9a5d699c263e82827c378ee08c3f7f",
+      "subscriberId": " tel:94784662138",
+      "applicationMetaData": {
+        "client": "MOBILEAPP",
+        "device": "Samsung S10",
+        "os": "android9",
+        "appCode": "https://play.google.com/store/apps/details?id=lk.dialog.megarunlor"
+      }
     }
-  })
+  );
+
+  console.log(post_data)
 
   var post_options = {
-    host: 'localhost',
-    port: '3030',
-    path: 'https://api.dialog.lk/subscription/otp/request',
+    host: 'api.dialog.lk',
+    port: '7000',
+    path: '/subscription/otp/request',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Content-Length': Buffer.byteLength(post_data)
-    }
+      "Accept": "application/json",
+      'Content-Length': post_data.length
+    },
+    body: post_data
   };
 
-  var post_req = http.request(post_options, function (res) {
-    res.on('data', function (chunk) {
+  var post_req = https.request(post_options, function (res) {
+    console.log(res.statusCode);
+    res.on('data', (chunk) => {
       console.log(chunk);
     });
   });
 
   post_req.write(post_data);
   post_req.end();
+
 
 }
 
