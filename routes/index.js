@@ -36,7 +36,7 @@ function OTPRequest() {
 
   var post_options = {
     host: 'api.dialog.lk',
-    port: '7000',
+    port: '5050',
     path: '/subscription/otp/request',
     method: 'POST',
     headers: {
