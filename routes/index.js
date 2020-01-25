@@ -35,9 +35,9 @@ function OTPRequest() {
   console.log(post_data)
 
   var post_options = {
-    host: 'api.dialog.lk',
+    host: '52.220.190.37',
     port: '5050',
-    path: '/subscription/otp/request',
+    path: 'https://api.dialog.lk/subscription/otp/request',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -66,7 +66,6 @@ router.get('/', function (req, res, next) {
     res.json(ress.data);
   })
 });
-
 
 // http.get(options, function (res) {
 //   var obj = {
