@@ -4,12 +4,14 @@ var axios = require('axios');
 var https = require('https');
 var querystring = require('querystring');
 var qs = require('qs');
-var request = requires('request');
+var request = require('request');
 
 router.post('/OTP', (req, res) => {
 
-  // var post_data = qs.stringify(
-  //   {
+  // var post_options = {
+  //   uri: 'https://api.dialog.lk/subscription/otp/request',
+  //   method: 'POST',
+  //   json: {
   //     applicationId: "APP_054681",
   //     password: "dd9a5d699c263e82827c378ee08c3f7f",
   //     subscriberId: "tel:94784662138",
@@ -20,27 +22,25 @@ router.post('/OTP', (req, res) => {
   //       appCode: "https://play.google.com/store/apps/details?id=lk.dialog.megarunlor"
   //     }
   //   }
-  // );
+  // };
 
-  var post_options = {
-    uri: 'https://api.dialog.lk/subscription/otp/request',
-    method: 'POST',
-    json: {
-      applicationId: "APP_054681",
-      password: "dd9a5d699c263e82827c378ee08c3f7f",
-      subscriberId: "tel:94784662138",
-      applicationMetaData: {
-        client: "MOBILEAPP",
-        device: "Samsung S10",
-        os: "android9",
-        appCode: "https://play.google.com/store/apps/details?id=lk.dialog.megarunlor"
-      }
+  // var post_req = request.post(post_options, (err, res) => {
+  //   console.log(res);
+  // });
+
+  axios.post('https://api.dialog.lk/subscription/otp/request', {
+    applicationId: "APP_054681",
+    password: "dd9a5d699c263e82827c378ee08c3f7f",
+    subscriberId: "tel:94784662138",
+    applicationMetaData: {
+      client: "MOBILEAPP",
+      device: "Samsung S10",
+      os: "android9",
+      appCode: "https://play.google.com/store/apps/details?id=lk.dialog.megarunlor"
     }
-  };
-
-  var post_req = request.post(post_options, (err, res) => {
-    console.log(res);
-  });
+  }).then(resss => {
+    res.json(resss.data);
+  })
 })
 
 
