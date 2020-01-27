@@ -25,9 +25,7 @@ router.post('/OTP', (req, res) => {
   // 'Content-Length': Buffer.byteLength(post_data.length)
 
   var post_options = {
-    host: 'api.dialog.lk',
-    port: '443',
-    path: '/subscription/otp/request',
+    uri:'https://api.dialog.lk/subscription/otp/request'
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
