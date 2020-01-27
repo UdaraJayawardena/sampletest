@@ -25,13 +25,19 @@ router.post('/OTP', (req, res) => {
   // 'Content-Length': Buffer.byteLength(post_data.length)
 
   var post_options = {
-    uri:'https://api.dialog.lk/subscription/otp/request'
+    uri: 'https://api.dialog.lk/subscription/otp/request',
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      "Accept": "application/json"
-    },
-    body: post_data
+    json: {
+      applicationId: "APP_054681",
+      password: "dd9a5d699c263e82827c378ee08c3f7f",
+      subscriberId: "tel:94784662138",
+      applicationMetaData: {
+        client: "MOBILEAPP",
+        device: "Samsung S10",
+        os: "android9",
+        appCode: "https://play.google.com/store/apps/details?id=lk.dialog.megarunlor"
+      }
+    }
   };
 
   var post_req = https.request(post_options, function (res) {
