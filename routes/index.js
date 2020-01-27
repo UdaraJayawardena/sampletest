@@ -6,44 +6,44 @@ var querystring = require('querystring');
 var qs = require('qs');
 var request = require('request');
 
-router.post('/OTP', (req, res) => {
+router.post('/sendOTP', (req, res) => {
 
-  // var post_options = {
-  //   uri: 'https://api.dialog.lk/subscription/otp/request',
-  //   method: 'POST',
-  //   json: {
-  //     applicationId: "APP_054681",
-  //     password: "dd9a5d699c263e82827c378ee08c3f7f",
-  //     subscriberId: "tel:94784662138",
-  //     applicationMetaData: {
-  //       client: "MOBILEAPP",
-  //       device: "Samsung S10",
-  //       os: "android9",
-  //       appCode: "https://play.google.com/store/apps/details?id=lk.dialog.megarunlor"
-  //     }
-  //   }
-  // };
-
-  // var post_req = request.post(post_options, (err, res) => {
-  //   console.log(res);
-  // });
-
-  axios.post('https://api.dialog.lk/subscription/otp/request', {
-    applicationId: "APP_054681",
-    password: "dd9a5d699c263e82827c378ee08c3f7f",
-    subscriberId: "tel:94784662138",
-    applicationMetaData: {
-      client: "MOBILEAPP",
-      device: "Samsung S10",
-      os: "android9",
-      appCode: "https://play.google.com/store/apps/details?id=lk.dialog.megarunlor"
+  var post_options = {
+    uri: 'https://api.dialog.lk/subscription/otp/request',
+    method: 'POST',
+    json: {
+      applicationId: "APP_054681",
+      password: "dd9a5d699c263e82827c378ee08c3f7f",
+      subscriberId: "tel:94784662138",
+      applicationMetaData: {
+        client: "MOBILEAPP",
+        device: "Samsung S10",
+        os: "android9",
+        appCode: "https://play.google.com/store/apps/details?id=lk.dialog.megarunlor"
+      }
     }
-  }).then(resss => {
-    res.json(resss.data);
+  };
+
+  var post_req = request.post(post_options, (err, res) => {
+    console.log(res.body);
   })
 })
 
+router.post('/subNotify', (req, res) => {
+  var post_options = {
+    uri: 'https://api.ideamart.io/subscription/getStatus',
+    method: 'POST',
+    json: {
+      "applicationId": "APP_054681",
+      "password": "dd9a5d699c263e82827c378ee08c3f7f",
+      "subscriberId": "tel:94784662138"
+    }
+  };
 
+  var post_req = request.post(post_options, (err, res) => {
+    console.log(res.body);
+  })
+})
 
 
 router.get('/', function (req, res, next) {
@@ -52,41 +52,28 @@ router.get('/', function (req, res, next) {
   })
 });
 
-router.post('/OTPRequest', (req, res) => {
-  const body = req.body;
+// router.post('/OTPRequest', (req, res) => {
+//   const body = req.body;
 
-  axios.post('https://api.dialog.lk/subscription/otp/request', {
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json"
-    }
-  }, {
-    applicationId: "APP_054681",
-    password: "dd9a5d699c263e82827c378ee08c3f7f",
-    subscriberId: " tel:94784662138",
-    applicationMetaData: {
-      client: "MOBILEAPP",
-      device: "Samsung S10",
-      os: "android9",
-      appCode: "https://play.google.com/store/apps/details?id=lk.dialog.megarunlor"
-    }
-  }).then(resss => {
-    res.json(resss.data);
-  })
-})
-
-router.post('/smsSend', (req, res) => {
-  const body = req.body;
-
-  axios.post('https://api.dialog.lk/sms/send', {
-    "message": body.message,
-    "destinationAddresses": body.destinationAddresses,
-    "password": body.password,
-    "applicationId": body.applicationId
-  }).then(resss => {
-    res.json(resss.data);
-  })
-})
+//   axios.post('https://api.dialog.lk/subscription/otp/request', {
+//     headers: {
+//       "Content-Type": "application/json",
+//       "Accept": "application/json"
+//     }
+//   }, {
+//     applicationId: "APP_054681",
+//     password: "dd9a5d699c263e82827c378ee08c3f7f",
+//     subscriberId: " tel:94784662138",
+//     applicationMetaData: {
+//       client: "MOBILEAPP",
+//       device: "Samsung S10",
+//       os: "android9",
+//       appCode: "https://play.google.com/store/apps/details?id=lk.dialog.megarunlor"
+//     }
+//   }).then(resss => {
+//     res.json(resss.data);
+//   })
+// })
 
 router.get('/test', (req, res) => {
   res.json('This is a Test Message')
