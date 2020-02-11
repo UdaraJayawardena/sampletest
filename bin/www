@@ -1,57 +1,42 @@
-#!/usr/bin/env node
-
-/**
- * Module dependencies.
- */
-
 var app = require('../app');
 var debug = require('debug')('sample:server');
 var http = require('http');
+var https = require('https');
+var fs = require('fs');
 
-/**
- * Get port from environment and store in Express.
- */
+var privateKey = fs.readFileSync('../../openSSL/yourdomain.key', 'utf8');
+var certificate = fs.readFileSync('../../openSSL/eb85514f91f9d47f.crt', 'utf8');
 
-var port = normalizePort(process.env.PORT || '5050');
-app.set('port', port);
+var server_config = {
+  key: privateKey,
+  cert: certificate
+}
 
-/**
- * Create HTTP server.
- */
+var https_server = https.createServer(server_config, app).listen(443, function (err) {
+  console.log('Run on 443');
+});
 
-var server = http.createServer(app);
 
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
-
-/**
- * Normalize a port into a number, string, or false.
- */
+var http_server = http.createServer(function (req, res) {
+  res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+  res.end();
+}).listen(80, function () {
+  console.log('Run on 80');
+})
 
 function normalizePort(val) {
   var port = parseInt(val, 10);
 
   if (isNaN(port)) {
-    // named pipe
     return val;
   }
 
   if (port >= 0) {
-    // port number
     return port;
   }
 
   return false;
 }
-
-/**
- * Event listener for HTTP server "error" event.
- */
 
 function onError(error) {
   if (error.syscall !== 'listen') {
